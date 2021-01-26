@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import { useState } from 'react';
+import AddTask from './components/AddTask';
 
 const App = () => {
   const [tasks, setTasks] = useState([
@@ -25,22 +26,51 @@ const App = () => {
     },
   ]);
 
+  const [showAddTask, setShowAddTask] = useState(false);
+
+  const handleShowTasktoggle = () => {
+    setShowAddTask(!showAddTask);
+  };
+
   const handleDeleteTask = (taskId) => {
     const newTasks = tasks.filter((t) => t.id !== taskId);
     setTasks(newTasks);
   };
 
-  const handleToggleRemainder = (taskId) =>{
-    const newTasks = [... tasks];
-    newTasks[taskId - 1].reminder = !newTasks[taskId - 1].reminder;
+  const handleToggleReminder = (taskId) => {
+    const newTasks = tasks.map((task) =>
+      taskId === task.id ? { ...task, reminder: !task.reminder } : task
+    );
+    console.log(taskId);
     setTasks(newTasks);
-  }
+  };
+
+  const handleAddTask = (task) => {
+    const newTasks = [...tasks];
+    newTasks.push({
+      id: Math.floor(Math.random() * 10000) + 1,
+      text: task.text,
+      day: task.day,
+      reminder: task.reminder,
+    });
+    setTasks(newTasks);
+  };
 
   return (
     <div className='border rounded m-3 p-3'>
-      <Header title='Task Tracker' />
+      <Header
+        onShowAddTaskToggle={handleShowTasktoggle}
+        showAddTask={showAddTask}
+      />
+
+      {showAddTask && <AddTask onAddTask={handleAddTask} />}
+
       {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={handleDeleteTask} onToggle={handleToggleRemainder}/>
+        <Tasks
+          tasks={tasks}
+          onDelete={handleDeleteTask}
+          onToggle={handleToggleReminder}
+        />
       ) : (
         'No Tasks To Show'
       )}

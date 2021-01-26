@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
 
-const Header = ({ title }) => {
-  const handleAdd = () => {
-    console.log('Click');
-  };
-
+const Header = ({ title, onShowAddTaskToggle, showAddTask }) => {
   return (
     <header className='d-flex justify-content-between align-items-center border-bottom p-2 mb-3'>
       <h1>{title}</h1>
-      <Button title='Add' color='blue' onAdd={handleAdd}/>
+      <Button
+        title={showAddTask ? 'Close' : 'Add'}
+        color={showAddTask ? 'red' : 'green'}
+        onClick={onShowAddTaskToggle}
+      />
     </header>
   );
 };
