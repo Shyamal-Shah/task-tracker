@@ -8,7 +8,7 @@ const Header = ({ title }) => {
   };
 
   return (
-    <header className='d-flex justify-content-between align-items-center'>
+    <header className='d-flex justify-content-between align-items-center border-bottom p-2 mb-3'>
       <h1>{title}</h1>
       <Button title='Add' color='blue' onAdd={handleAdd}/>
     </header>
